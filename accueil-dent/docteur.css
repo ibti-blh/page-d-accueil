@@ -1,0 +1,202 @@
+/* Réinitialisation des marges et boîtes */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #d6d6d6, #f0f0f0); /* Dégradé doux du gris clair vers un gris très pâle */
+
+  font-size: 1.4rem; /* Base font size (14px) */
+}
+
+/* Header (Barre de navigation) */
+.header {
+  background: rgba(255, 255, 255, 0.9); /* Fond transparent mais lumineux */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo img {
+  margin-top: -6px;
+  height: 40px; /* Taille du logo */
+}
+
+.logo h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2b2b2b;
+}
+
+.logo .highlight {
+  color: #0075FF; /* Bleu vif */
+}
+
+/* Navigation */
+.nav {
+  display: flex;
+  gap: 30px;
+}
+
+.nav a {
+  color: #444;
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: color 0.3s ease, border-bottom 0.3s;
+}
+
+.nav a:hover {
+  color: #0075FF;
+  border-bottom: 2px solid #0075FF;
+}
+
+.nav a:active {
+  transform: scale(1.1);
+}
+
+/* Cercle de profil */
+.profile-circle {
+  width: 120px;
+  height: 40px;
+  background: #0075FF;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.profile-circle:hover {
+  background: #00C897;
+}
+
+/* Contenu principal */
+.msg {
+  text-align: center;
+  padding: 70px 20px;
+  margin-top: 80px;
+}
+
+.msg h1 {
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: #2b2b2b;
+}
+
+.msg p {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #555;
+  margin-top: 15px;
+}
+
+.msg .highlight {
+  color: #0075FF;
+}
+
+/* Bouton flottant */
+.floating-button {
+  position: fixed;
+  top: 70%;
+  right: 20px;
+  background: #0075FF;
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.4rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.floating-button:hover {
+  background: #00C897;
+  color: #fff;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+}
+
+.suivre {
+  color: #444;
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: color 0.3s ease;
+}
+
+.suivre:hover {
+  color: #0075FF;
+}
+
+.suivre-menu {
+  display: none;
+  position: absolute;
+  top: 45px;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.95); /* Fond légèrement opaque */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  list-style: none;
+  padding: 10px 0;
+  z-index: 1000;
+  min-width: 220px;
+}
+
+.suivre-menu li {
+  padding: 10px 20px;
+}
+
+.suivre-menu li a {
+  color: #444;
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: 400;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.suivre-menu li a:hover {
+  background-color: rgba(0, 117, 255, 0.1);
+  color: #0075FF;
+}
+
+.dropdown:hover .suivre-menu {
+  display: block;
+}
