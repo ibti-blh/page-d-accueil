@@ -1,54 +1,40 @@
 <?php
 include "db_conn.php";
-
-// Vérifier si le formulaire est soumis
 if (isset($_POST['submit'])) {
+   // Récupérer les données du formulaire
+   $Nom = mysqli_real_escape_string($conn, $_POST['Nom']);
+   $Référence = mysqli_real_escape_string($conn, $_POST['Référence']);
+   $Catégorie = mysqli_real_escape_string($conn, $_POST['Catégorie']);
+   $Description = mysqli_real_escape_string($conn, $_POST['Description']);
+   $MarqueFournisseur = mysqli_real_escape_string($conn, $_POST['MarqueFournisseur']);
+   $Quantité = (int)$_POST['Quantité']; // Conversion en entier
+   $Prix = (float)$_POST['Prix']; // Conversion en nombre flottant
+   $DateExp = $_POST['DateExp'];
 
-    // Récupérer les données du formulaire
-    $Nom = mysqli_real_escape_string($conn, $_POST['Nom']);
-    $Reference = mysqli_real_escape_string($conn, $_POST['Référence']);
-    $Categorie = mysqli_real_escape_string($conn, $_POST['Catégorie']);
-    $Description = mysqli_real_escape_string($conn, $_POST['Description']);
-    $MarqueFournisseur = mysqli_real_escape_string($conn, $_POST['MarqueFournisseur']);
-    $Quantite = mysqli_real_escape_string($conn, $_POST['Quantité']);
-    $Prix = mysqli_real_escape_string($conn, $_POST['Prix']);
-    $DateExp = mysqli_real_escape_string($conn, $_POST['DateExp']);
+   // Afficher les valeurs pour vérifier qu'elles sont récupérées correctement
+   var_dump($Nom, $Référence, $Catégorie, $Description, $MarqueFournisseur, $Quantité, $Prix, $DateExp);
+      
+        $sql ="INSERT INTO `crud`(`id`, `prénom`, `nom`, `email`, `tel`, `sexe`) VALUES (NULL,'$prénom','$nom','$email','$tel','$sexe')";
+      
+       
+      
 
-    $Photo = $_FILES['Photo']['name']; 
-    $Photo_tmp_name = $_FILES['Photo']['tmp_name'];  
-    $upload_dir = "uploads/";  
+    // Afficher les valeurs pour vérifier qu'elles sont récupérées correctement
+    var_dump($Nom, $Référence, $Catégorie, $Description, $MarqueFournisseur, $Quantité, $Prix, $DateExp);
 
-    // Vérifier l'extension du fichier pour s'assurer qu'il s'agit d'une image valide
-    $validExtensions = ['jpg', 'jpeg', 'png'];
-    $Photo_extension = strtolower(pathinfo($Photo, PATHINFO_EXTENSION));
+    // Préparer la requête SQL
+    $sql = "INSERT INTO crud (Nom, Référence, Catégorie, Description, MarqueFournisseur, Quantité, Prix, DateExp)
+            VALUES ('$Nom', '$Référence', '$Catégorie', '$Description', '$MarqueFournisseur', '$Quantité', '$Prix', '$DateExp')";
 
-    if (in_array($Photo_extension, $validExtensions)) {
-        // Générer un nouveau nom pour éviter les conflits de noms
-        $new_Photo_name = time() . "_" . $Photo;  // Utiliser un timestamp pour le nom
+    $result = mysqli_query($conn, $sql);
 
-        // Déplacer le fichier du répertoire temporaire vers le dossier final
-        if (move_uploaded_file($Photo_tmp_name, $upload_dir . $new_Photo_name)) {
-            echo "Fichier téléchargé avec succès.";
-
-            // Préparer la requête SQL pour l'insertion dans la base de données
-            $sql = "INSERT INTO crud (Nom, Référence, Catégorie, Description, Marque_Fournisseur, Quantité, Prix, DateExp, Photo)
-                    VALUES ('$Nom', '$Reference', '$Categorie', '$Description', '$MarqueFournisseur', '$Quantite', '$Prix', '$DateExp', '$new_Photo_name')";
-
-            // Exécuter la requête SQL
-            if (mysqli_query($conn, $sql)) {
-                echo "Produit ajouté avec succès.";
-                header("Location: index.php?msg=New record created successfully");
-                exit();
-            } else {
-                echo "Erreur lors de l'insertion : " . mysqli_error($conn);
-            }
-        } else {
-            echo "Erreur lors du téléchargement du fichier.";
-        }
+    if ($result) {
+        header("Location: index.php?msg=Nouvel enregistrement créé avec succès");
     } else {
-        echo "Extension de fichier non valide. Seuls les fichiers jpg, jpeg et png sont autorisés.";
+        echo "Erreur : " . mysqli_error($conn);
     }
 }
+
 
 mysqli_close($conn);
 ?>
@@ -58,15 +44,8 @@ mysqli_close($conn);
 
 
 
-
-
-
-
-
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,13 +58,68 @@ mysqli_close($conn);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
           integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
           crossorigin="anonymous" referrerpolicy="no-referrer">
+          <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-light justify-content-center fs-3 mb-5" style="background-color: blue; color: white;">
-        PHP Complete CRUD Application
-    </nav>
+    <header class="header fixed-top">
+    <div class="h-bar">
+      <div class="logo">
+        <img src="./images/tooth.png" alt="Logo">
+        <a href="index.php" style="text-decoration:none;"><h1>Cabinet<span class="highlight">Plus</span></h1></a>
+      </div>
+      <nav class="nav-q">
+        <a href="#">Accueil</a>
+        <a href="#">Patients</a>
+        <a href="#">Prothèses</a>
+        <a href="#">Calendrier</a>
+        <div class="dropdown">
+          <a href="#suivre" class="suivre" aria-haspopup="true">Suivre</a>
+          <ul class="suivre-menu">
+            <li><a href="#suivi-produits">Suivi des Produits</a></li>
+            <li><a href="#suivi-achats">Suivi des Achats</a></li>
+            <li><a href="#suivi-protheses">Suivi des Prothèses</a></li>
+          </ul>
+        </div>
+      </nav>
+      <button class="profile-circle">Connexion</button>
 
+    </div>
+  </header>
+<main>
+  <div class="side-nav">
+    <div class="user">
+      <img src="images/midune.jpg" class="user-img">
+      <div>
+        <h2>midune</h2>
+        <p>midune@gmail.com</p>
+        </div>
+    </div>
+    <ul>
+      <a href="index.php"><li><img src="image/dashboard.png">
+        <p>Dashboard</p>
+      </li></a>
+      <a href="#"><li><img src="image/members.png">
+        <p>Page de clients</p>
+      </li></a>
+      <a href="#"><li><img src="image/rewards.png">
+        <p>Pages de produits</p>
+      </li></a>
+      <a href="#"><li><img src="image/projects.png">
+        <p>Bon d'achat</p>
+      </li></a>
+      <a href="#"><li><img src="image/setting.png">
+        <p>Fournisseur</p>
+      </li></a>
+    </ul>
+
+    <ul>
+      <li><img src="image/logout.png">
+        <p>Deconnexion</p>
+      </li>
+    </ul>
+  </div>
+   
     <!-- Form Section -->
     <div class="container">
         <div class="text-center mb-4">
@@ -93,7 +127,7 @@ mysqli_close($conn);
             <p class="text-muted">Saisissez le formulaire ci-dessous pour ajouter un nouveau produit</p>
         </div>
         <div class="container d-flex justify-content-center">
-            <form action="add.php" method="POST" enctype="multipart/form-data" style="width:50vw; min-width:300px;">
+            <form action="" method="POST" enctype="multipart/form-data" style="width:50vw; min-width:300px;">
                 <div class="row mb-3">
                     <div class="col">
                         <label for="productName" class="form-label">Nom:</label>
@@ -135,27 +169,15 @@ mysqli_close($conn);
                         <input type="date" class="form-control" id="DateExp" name="DateExp" required>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label for="photo" class="form-label">Photo:</label>
-                    <input type="file" class="form-control" id="Photo" name="Photo" accept=".jpg, .jpeg, .png" required>
-                </div>
+                
                 <div class="text-center">
-                    <button type="submit" class="btn btn-success" name="submit">Sauvegarder</button>
-                    <a href="index.html" class="btn btn-danger">Annuler</a>
+                    <button type="submit" class="btn btn-success" name="submit" style="background-color: blue;">Sauvegarder</button>
+                    <a href="index.php" class="btn btn-danger">Annuler</a>
                 </div>
             </form>
         </div>
     </div>
-                    
-                    
-
-            
-
-
-
-       
-
-
+               
 
 </div>
     <!--Bootstrap-->
@@ -164,3 +186,4 @@ mysqli_close($conn);
      crossorigin="anonymous"></script>
 
 </body>
+</html>
